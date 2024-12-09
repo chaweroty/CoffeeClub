@@ -17,8 +17,8 @@ class CreateSubscriptionsTable extends Migration
             $table->foreignId('method_of_payment_id'); 
             $table->timestamps();
 
-            $table->foreign('product_car_id')->references('id')->on('product-car')->onDelete('cascade');
-            $table->foreign('method_of_payment_id')->references('id')->on('methods_of_payment')->onDelete('cascade');
+            $table->foreign('product_car_id')->references('id')->on('product_cart')->onDelete('cascade');
+            $table->foreign('method_of_payment_id')->references('id')->on('payment_methods')->onDelete('cascade');
         });
     }
 
