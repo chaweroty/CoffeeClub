@@ -14,6 +14,7 @@ class CreateProducersTable extends Migration
             $table->string('email')->unique(); 
             $table->string('password'); 
             $table->string('region'); 
+            $table->double('balance')->default(0); 
             $table->text('bio')->nullable(); 
             $table->timestamps();
         });

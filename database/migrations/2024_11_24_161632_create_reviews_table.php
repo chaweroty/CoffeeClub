@@ -12,7 +12,7 @@ class CreateReviewsTable extends Migration
             $table->string('title');
             $table->text('comment');
             $table->integer('rating');
-            $table->integer('qualification')->default(0);;
+            $table->integer('qualification');
             $table->foreignId('user_id'); 
             $table->foreignId('product_id'); 
             $table->timestamps();

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use HasFactory,HasApiTokens;
@@ -22,4 +23,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recipe::class);
     }
+    public function paymentMethod()
+    {
+        return $this->hasMany(PaymentMethod::class);
+    }
+    public function getRouteKeyName()
+    {
+        return 'id'; 
+    }
 }
+

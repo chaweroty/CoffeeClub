@@ -22,3 +22,4 @@ class CartProduct extends Pivot
         return $this->belongsTo(Product::class);
     }
 }
+

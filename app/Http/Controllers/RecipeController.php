@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
@@ -9,10 +8,13 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller
 {
     public function index(Request $request)
-    {
-        $recipes = Recipe::with(['product', 'user'])->get();
-        return response()->json($recipes, 200);
-    }
+{
+    // Obtener todas las recetas, ordenadas por el campo deseado (por ejemplo, 'created_at')
+    $recipes = Recipe::orderBy('created_at', 'desc')->get();
+
+    // Retornar las recetas en formato JSON
+    return response()->json($recipes, 200);
+}
 
     public function store(Request $request)
     {

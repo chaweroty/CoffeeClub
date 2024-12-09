@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Review;
@@ -65,5 +66,13 @@ class ReviewController extends Controller
     {
         $review->delete();
         return response()->json(null, 204);
+    }
+    public function myReview(Review $review)
+    {
+        $r = review::with('user')
+            ->where('user_id', $review)
+            ->get();
+
+        return response()->json($r, 200);
     }
 }

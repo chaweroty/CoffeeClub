@@ -20,3 +20,6 @@ class Producer extends Authenticatable
         return $this->hasMany(Product::class);
     }
 }
+
+
+

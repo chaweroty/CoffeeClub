@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PaymentMethod;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\PaymentMethod;
 
 class PaymentMethodController extends Controller
 {
-    public function index()
+    public function index(User $user)
     {
-        $paymentMethods = PaymentMethod::all();
-        return response()->json($paymentMethods, 200);
+       
+        $products = PaymentMethod::where('user_id', $user->id)->get();
+
+    
+        return response()->json($products, 200);
     }
 
     public function store(Request $request)
@@ -18,6 +22,7 @@ class PaymentMethodController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'nullable|string',
+            'user_id' => 'required|exists:products,id',
         ]);
 
         $paymentMethod = PaymentMethod::create($validatedData);
@@ -34,6 +39,7 @@ class PaymentMethodController extends Controller
         $validatedData = $request->validate([
             'name' => 'string|max:255',
             'type' => 'nullable|string',
+            'user_id' => 'required|exists:products,id',
         ]);
 
         $paymentMethod->update($validatedData);
