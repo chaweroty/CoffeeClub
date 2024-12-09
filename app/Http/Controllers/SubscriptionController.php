@@ -32,7 +32,7 @@ class SubscriptionController extends Controller
         return response()->json($subscription, 200);
     }
 
-    public function update(Request $request, Subscription $subscription)
+    public function renove(Request $request, Subscription $subscription)
     {
         $validatedData = $request->validate([
             'start_date' => 'sometimes|date',

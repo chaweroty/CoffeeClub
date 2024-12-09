@@ -32,6 +32,7 @@ class ReviewController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'comment' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
             'qualification' => 'integer|min:0',
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',

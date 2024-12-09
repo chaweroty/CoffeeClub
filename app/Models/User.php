@@ -27,5 +27,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(PaymentMethod::class);
     }
+    public function getRouteKeyName()
+    {
+        return 'id'; 
+    }
 }
 

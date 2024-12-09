@@ -10,8 +10,10 @@ class PaymentMethodController extends Controller
 {
     public function index(User $user)
     {
-+
+       
         $products = PaymentMethod::where('user_id', $user->id)->get();
+
+    
         return response()->json($products, 200);
     }
 
