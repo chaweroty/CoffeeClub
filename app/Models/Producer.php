@@ -22,3 +22,4 @@ class Producer extends Authenticatable
 }
 
 
+
