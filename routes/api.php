@@ -20,15 +20,14 @@ use App\Http\Controllers\PaymentMethodController;
 Route::post('/users', [UserController::class, 'store']);
 Route::post('/producers', [ProducerController::class, 'store']);
 
-
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index']); // Listar productos
     Route::get('/{product}', [ProductController::class, 'show']); // Detalle de producto
 });
 
+Route::get('/recipes', [RecipeController::class, 'index']);
 
-Route::post('/v1/login', [App\Http\Controllers\Api\V1\AuthController::class, 'login'])->name('api.login');
-Route::middleware(['auth:sanctum'])->post('/v1/logout', [App\Http\Controllers\Api\V1\AuthController::class, 'logout'])->name('api.logout');
+Route::post('/login', [App\Http\Controllers\Api\V1\AuthController::class, 'login'])->name('api.login');
 
 
 Route::middleware(['auth:sanctum', EnsureUser::class])->group(function () {
@@ -36,7 +35,7 @@ Route::middleware(['auth:sanctum', EnsureUser::class])->group(function () {
     Route::prefix('subscriptions')->group(function () {
         Route::post('/', [SubscriptionController::class, 'store']);
         Route::delete('/{subscription}', [SubscriptionController::class, 'destroy']);
-        Route::delete('/{subscription}', [SubscriptionController::class, 'destroy']);
+        Route::put('/{subscription}', [SubscriptionController::class, 'renove']);
     });
 
     // Reseñas: dejar una reseña de un producto
@@ -44,7 +43,11 @@ Route::middleware(['auth:sanctum', EnsureUser::class])->group(function () {
         Route::post('/', [ReviewController::class, 'store']);
         Route::put('/{review}', [ReviewController::class, 'update']);
         Route::delete('/{review}', [ReviewController::class, 'destroy']);
+        Route::get('/{user}', [ReviewController::class, 'myReview']); //todas las reviews d eun cliente
     });
+
+    Route::post('/recipes', [RecipeController::class, 'store']);
+    Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy']);
 
     // Usuarios: actualizar información propia
     Route::put('/users/{user}', [UserController::class, 'update']);
@@ -52,38 +55,44 @@ Route::middleware(['auth:sanctum', EnsureUser::class])->group(function () {
 
     // Carrito: agregar productos al carrito
     Route::prefix('carts')->group(function () {
-        Route::post('/', [CartController::class, 'store']);
-        Route::post('/{cart}/products/{product}', [CartProductController::class, 'store']); //crear los productos d eun carrito
-        Route::delete('/{cart}/products/{product}', [CartProductController::class, 'destroy']); //eliminar el producto de un carrito
+        Route::post('/', [CartController::class, 'store']);//crear un carrito
+        Route::delete('/{cart}', [CartController::class, 'destroy']);//descarta el carrito
         Route::get('/{cart}/products/', [CartProductController::class, 'index']); //mostrar todos los productos d eun carrito
-        Route::delete('/{cart}', [CartController::class, 'destroy']);
+        Route::post('/{cart}/products/{product}', [CartProductController::class, 'store']); //añade los productos d eun carrito
+        Route::delete('/{cart}/products/{product}', [CartProductController::class, 'destroy']); //eliminar el producto de un carrito
     });
 
     // Método de pago: agregar métodos de pago
-    Route::post('/users/payments-methods', [PaymentMethodController::class, 'store']);
-    Route::put('/users/payments-methods/{paymentMethod}', [PaymentMethodController::class, 'update']);
-    Route::delete('/users/payments-methods/{paymentMethod}', [PaymentMethodController::class, 'destroy']);
-    Route::get('/users/payments-methods', [PaymentMethodController::class, 'index']);
+    Route::post('/payments-methods', [PaymentMethodController::class, 'store']);
+    Route::put('/payments-methods/{paymentMethod}', [PaymentMethodController::class, 'update']);
+    Route::delete('/payments-methods/{paymentMethod}', [PaymentMethodController::class, 'destroy']);
+    Route::get('/{user}/payments-methods', [PaymentMethodController::class, 'index']);
+
+
+    Route::middleware(['auth:sanctum'])->post('/logout', [App\Http\Controllers\Api\V1\AuthController::class, 'logout'])->name('api.logout');
 });
 
 
 // Rutas protegidas para productores
-Route::middleware(['auth:sanctum', EnsureProducer::class])->group(function () {
+Route::middleware(['auth:sanctum', EnsureProducer::class])->prefix('producers')->group(function () {
     // Productos: eliminar un producto
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+    Route::get('/products/{producer}', [ProductController::class, 'getMyProducts']);
 
 
     Route::post('/payments-methods', [PaymentMethodController::class, 'store']);
+    Route::get('/payments-methods/{producer}', [PaymentMethodController::class, 'getMyPaymentMethod']); //obtener mis metodos de pago
     Route::put('/payments-methods/{paymentMethod}', [PaymentMethodController::class, 'update']);
     Route::delete('/payments-methods/{paymentMethod}', [PaymentMethodController::class, 'destroy']);
 
 
-    Route::post('/recipes', [RecipeController::class, 'store']);
-    Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy']);
    
-    Route::delete('/producers/{producer}', [UserController::class, 'destroy']);
+    Route::delete('/{producer}', [UserController::class, 'destroy']);
+    Route::put('/{producer}', [UserController::class, 'update']);
+
+    Route::middleware(['auth:sanctum'])->post('/logout', [App\Http\Controllers\Api\V1\AuthController::class, 'logout'])->name('api.logout');
 });
 
 

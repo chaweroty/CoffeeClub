@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Producer;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -71,5 +72,13 @@ class ProductController extends Controller
     {
         $product->delete();
         return response()->json(null, 204);
+    }
+    public function getMyProducts(Producer $producer)
+    {
+        // Consulta para obtener los productos asociados al productor
+        $products = Product::where('producer_id', $producer->id)->get();
+
+        // Retornar los productos en formato JSON
+        return response()->json($products, 200);
     }
 }

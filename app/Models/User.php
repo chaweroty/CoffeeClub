@@ -4,10 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
-use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
@@ -23,7 +22,10 @@ class User extends Authenticatable
     public function recipes()
     {
         return $this->hasMany(Recipe::class);
-        return $this->hasMany(Recipe::class);
+    }
+    public function paymentMethod()
+    {
+        return $this->hasMany(PaymentMethod::class);
     }
 }
 
