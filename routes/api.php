@@ -76,7 +76,7 @@ Route::middleware(['auth:sanctum', EnsureUser::class])->group(function () {
 });
 
 
-// Rutas protegidas para productores
+// Rutas protegidas para productores i  IMPORTANTE TIENEN PRODUCERS EN LAS RUTAS
 Route::middleware(['auth:sanctum', EnsureProducer::class])->prefix('producers')->group(function () {
     // Productos: eliminar un producto
     Route::post('/products', [ProductController::class, 'store']);
