@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +14,10 @@ class CreateReviewsTable extends Migration
             $table->text('comment');
             $table->integer('rating');
             $table->integer('qualification');
-            $table->foreignId('user_id'); 
-            $table->foreignId('product_id'); 
+            $table->foreignId('user_id');
+            $table->foreignId('product_id');
             $table->timestamps();
 
-            
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
@@ -27,4 +27,4 @@ class CreateReviewsTable extends Migration
     {
         Schema::dropIfExists('reviews');
     }
-};
+}

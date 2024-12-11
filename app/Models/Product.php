@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $table = 'products'; 
+
+    protected $table = 'products';
+
     protected $fillable = ['name', 'description', 'flavor', 'preparation_method', 'price', 'region', 'quantity', 'producer_id'];
 
     public function producer()
@@ -26,4 +28,3 @@ class Product extends Model
         return $this->hasMany(Recipe::class);
     }
 }
-

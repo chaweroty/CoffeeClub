@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
-    protected $table = 'reviews'; 
-    protected $fillable = ['title', 'comment','rating', 'qualification', 'user_id', 'product_id'];
+
+    protected $table = 'reviews';
+
+    protected $fillable = ['title', 'comment', 'rating', 'qualification', 'user_id', 'product_id'];
 
     public function user()
     {
@@ -21,4 +23,3 @@ class Review extends Model
         return $this->belongsTo(Product::class);
     }
 }
-

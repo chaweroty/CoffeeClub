@@ -27,4 +27,3 @@ class EnsureUser
         ], 403);
     }
 }
-

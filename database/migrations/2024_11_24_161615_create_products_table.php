@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->double('price');
             $table->string('region');
             $table->integer('quantity')->default(1);
-            $table->foreignId('producer_id'); 
+            $table->foreignId('producer_id');
             $table->foreign('producer_id')->references('id')->on('producers')->onDelete('cascade');
             $table->timestamps();
         });
@@ -27,4 +27,4 @@ class CreateProductsTable extends Migration
     {
         Schema::dropIfExists('products');
     }
-};
+}

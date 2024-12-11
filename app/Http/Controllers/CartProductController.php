@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\CartProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartProductController extends Controller
@@ -23,33 +25,50 @@ class CartProductController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
+        $product = Product::findOrFail($productId);
+
+        $totalToAdd = $product->price * $validatedData['quantity'];
+
         $cartProduct = CartProduct::create([
             'cart_id' => $cartId,
             'product_id' => $productId,
             'quantity' => $validatedData['quantity'],
         ]);
 
+        $cart = Cart::findOrFail($cartId);
+        $cart->total += $totalToAdd;
+        $cart->save();
+
         return response()->json($cartProduct, 201);
     }
 
-    // Eliminar un producto de un carrito
     public function destroy($cartId, $productId)
     {
         $cartProduct = CartProduct::where('cart_id', $cartId)
             ->where('product_id', $productId)
             ->first();
 
-        if (!$cartProduct) {
+        if (! $cartProduct) {
             return response()->json(['message' => 'Product not found in the cart'], 404);
         }
 
+        $product = Product::findOrFail($productId);
+
+        $totalToSubtract = $product->price * $cartProduct->quantity;
+
         $cartProduct->delete();
+
+        $cart = Cart::findOrFail($cartId);
+        $cart->total -= $totalToSubtract;
+        $cart->save();
+
         return response()->json(null, 204);
     }
 
     public function show(CartProduct $cartProduct)
     {
         $cartProduct->load(['cart', 'product']);
+
         return response()->json($cartProduct, 200);
     }
 
@@ -60,8 +79,7 @@ class CartProductController extends Controller
         ]);
 
         $cartProduct->update($validatedData);
+
         return response()->json($cartProduct, 200);
     }
-
-    
 }

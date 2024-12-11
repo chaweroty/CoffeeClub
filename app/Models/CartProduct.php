@@ -9,7 +9,8 @@ class CartProduct extends Pivot
 {
     use HasFactory;
 
-    protected $table = 'product-cart'; 
+    protected $table = 'product_cart';
+
     protected $fillable = ['cart_id', 'product_id'];
 
     public function cart()
@@ -22,4 +23,3 @@ class CartProduct extends Pivot
         return $this->belongsTo(Product::class);
     }
 }
-

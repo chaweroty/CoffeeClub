@@ -27,5 +27,3 @@ class EnsureProducer
         ], 403);
     }
 }
-
-

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Models\Producer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -55,8 +55,8 @@ class AuthController extends Controller
     /**
      * Genera la respuesta con el token para el usuario autenticado.
      *
-     * @param mixed $user
-     * @param string $tokenType
+     * @param  mixed  $user
+     * @param  string  $tokenType
      * @return \Illuminate\Http\JsonResponse
      */
     private function generateTokenResponse($user, $tokenType)

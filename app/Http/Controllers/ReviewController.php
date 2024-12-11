@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -15,15 +17,16 @@ class ReviewController extends Controller
         $validSort = ['rating', 'qualification', 'user_id', 'product_id'];
         $validType = ['asc', 'desc'];
 
-        if (!in_array($sort, $validSort)) {
+        if (! in_array($sort, $validSort)) {
             return response()->json(['error' => "Invalid sort field: $sort"], 400);
         }
 
-        if (!in_array($type, $validType)) {
+        if (! in_array($type, $validType)) {
             return response()->json(['error' => "Invalid sort type: $type"], 400);
         }
 
         $reviews = Review::orderBy($sort, $type)->get();
+
         return response()->json($reviews, 200);
     }
 
@@ -39,6 +42,7 @@ class ReviewController extends Controller
         ]);
 
         $review = Review::create($validatedData);
+
         return response()->json($review, 201);
     }
 
@@ -59,20 +63,32 @@ class ReviewController extends Controller
         ]);
 
         $review->update($validatedData);
+
         return response()->json($review, 200);
     }
 
     public function destroy(Review $review)
     {
         $review->delete();
+
         return response()->json(null, 204);
     }
-    public function myReview(Review $review)
-    {
-        $r = review::with('user')
-            ->where('user_id', $review)
-            ->get();
 
-        return response()->json($r, 200);
+    public function myReview(User $user)
+    {
+        // Busca todas las reviews asociadas al usuario
+        $reviews = Review::where('user_id', $user->id)->get();
+
+        // Retorna las reviews en formato JSON
+        return response()->json($reviews, 200);
+    }
+
+    public function reviewProduct(Product $product)
+    {
+        // Busca todas las reviews asociadas al usuario
+        $reviews = Review::where('product_id', $product->id)->get();
+
+        // Retorna las reviews en formato JSON
+        return response()->json($reviews, 200);
     }
 }

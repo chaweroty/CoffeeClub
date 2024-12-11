@@ -41,9 +41,9 @@ return [
             'provider' => 'users',
         ],
         'producer' => [
-        'driver' => 'session',
-        'provider' => 'producers',
-    ],
+            'driver' => 'session',
+            'provider' => 'producers',
+        ],
     ],
 
     /*
@@ -69,8 +69,8 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
         'producers' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\Producer::class,
+            'driver' => 'eloquent',
+            'model' => App\Models\Producer::class,
         ],
 
         // 'users' => [

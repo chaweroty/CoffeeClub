@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller
 {
     public function index(Request $request)
-{
-    // Obtener todas las recetas, ordenadas por el campo deseado (por ejemplo, 'created_at')
-    $recipes = Recipe::orderBy('created_at', 'desc')->get();
+    {
+        // Obtener todas las recetas, ordenadas por el campo deseado (por ejemplo, 'created_at')
+        $recipes = Recipe::orderBy('created_at', 'desc')->get();
 
-    // Retornar las recetas en formato JSON
-    return response()->json($recipes, 200);
-}
+        // Retornar las recetas en formato JSON
+        return response()->json($recipes, 200);
+    }
 
     public function store(Request $request)
     {
@@ -27,6 +27,7 @@ class RecipeController extends Controller
         ]);
 
         $recipe = Recipe::create($validatedData);
+
         return response()->json($recipe, 201);
     }
 
@@ -46,12 +47,14 @@ class RecipeController extends Controller
         ]);
 
         $recipe->update($validatedData);
+
         return response()->json($recipe, 200);
     }
 
     public function destroy(Recipe $recipe)
     {
         $recipe->delete();
+
         return response()->json(null, 204);
     }
 }

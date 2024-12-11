@@ -10,6 +10,7 @@ class ProducerController extends Controller
     public function index()
     {
         $producers = Producer::all();
+
         return response()->json($producers, 200);
     }
 
@@ -23,7 +24,7 @@ class ProducerController extends Controller
             'balance' => 'required|numeric|min:0',
             'bio' => 'nullable|string',
         ]);
-        $producer = new Producer();
+        $producer = new Producer;
         $producer->name = $request->name;
         $producer->email = $request->email;
         $producer->password = bcrypt($request->password);
@@ -31,6 +32,7 @@ class ProducerController extends Controller
         $producer->balance = $request->balance;
         $producer->bio = $request->bio;
         $producer->save();
+
         return response()->json($producer, 201);
     }
 
@@ -43,22 +45,22 @@ class ProducerController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'string|max:255',
-            'email' => 'email|unique:producers,email,' . $producer->id,
+            'email' => 'email|unique:producers,email,'.$producer->id,
             'password' => 'nullable|string|min:8',
             'region' => 'string|max:255',
             'balance' => 'numeric|min:0',
             'bio' => 'nullable|string',
         ]);
 
-        
-
         $producer->update($validatedData);
+
         return response()->json($producer, 200);
     }
 
     public function destroy(Producer $producer)
     {
         $producer->delete();
+
         return response()->json(null, 204);
     }
 }
